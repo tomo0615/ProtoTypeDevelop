@@ -5,7 +5,7 @@ namespace RicochetAction.Scripts.Player
     public class PlayerInput
     {
         private const KeyCode 
-            ShotKey = KeyCode.JoystickButton7; //ZRButton
+            ShotKey = KeyCode.Mouse0; //ZRButton
 
         private float _horizontal;
 
@@ -13,7 +13,8 @@ namespace RicochetAction.Scripts.Player
         
         public void InputKeys()
         {
-//
+            _horizontal = Input.GetAxis("Horizontal");
+            _vertical = Input.GetAxis("Vertical");
         }
 
         public Vector3 MoveDirection() =>
