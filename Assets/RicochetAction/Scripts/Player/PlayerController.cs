@@ -1,5 +1,4 @@
-﻿using System;
-using UniRx;
+﻿using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 
@@ -13,7 +12,7 @@ namespace RicochetAction.Scripts.Player
 
         private PlayerShooter _playerShooter;
         
-        [SerializeField] private float moveSpeed = 10f;
+        [SerializeField] private float moveSpeed = 10.0f;
         
         private void Awake()
         {
