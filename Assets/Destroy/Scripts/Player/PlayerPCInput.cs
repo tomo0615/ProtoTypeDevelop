@@ -3,8 +3,7 @@
 public class PlayerPCInput : IPlayerInput
 {
     private const KeyCode
-        ShotKey = KeyCode.Mouse0,
-        CatchKey = KeyCode.Mouse1;
+        AttackKey = KeyCode.Mouse0;
 
     private float _horizontal;
 
@@ -22,7 +21,5 @@ public class PlayerPCInput : IPlayerInput
     public Vector3 LookDirection() =>
         (Input.mousePosition);
 
-    public bool IsShot() => Input.GetKeyUp(ShotKey);
-
-    public bool IsCatch() => Input.GetKey(CatchKey);
+    public bool IsAttack() => Input.GetKey(AttackKey) || Input.GetKeyDown(AttackKey);
 }

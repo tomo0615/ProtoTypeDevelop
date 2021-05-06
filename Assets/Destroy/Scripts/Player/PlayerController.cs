@@ -14,9 +14,10 @@ public class PlayerController : MonoBehaviour, IDamageable
     private PlayerRotater _playerRotater;
 
     private PlayerRayCaster _playerRayCaster;
-
-    private PlayerCatcher _playerCatcher;
     #endregion
+    
+    [SerializeField]
+    private PlayerAttacker playerAttacker = null;
     
     [SerializeField]
     private float moveSpeed = 20.0f;
@@ -34,41 +35,35 @@ public class PlayerController : MonoBehaviour, IDamageable
         _playerRotater = new PlayerRotater(transform);
 
         _playerRayCaster = new PlayerRayCaster(_camera, transform);
-        
-        _playerCatcher = GetComponentInChildren<PlayerCatcher>();
     }
 
     private void Start()
     {
-        //input keys
         this.UpdateAsObservable()
             .Subscribe(_=>
             {
                 _playerInput.InputKeys();
             });
         
-        //move
         this.UpdateAsObservable()
-            .Where(_=>_playerInput.IsCatch() == false)
             .Subscribe(_ =>
             {
                 _playerMover.Move(_playerInput.MoveDirection() * moveSpeed);
             });
         
-        //rotate
         this.UpdateAsObservable()
-            .Where(_=>_playerInput.IsCatch() == false)
             .Select(rayHitPosition=>_playerRayCaster.GetPositionByRay(_playerInput.LookDirection()))
             .Subscribe(rayHitPosition=>
             {
                 _playerRotater.LookRotation(rayHitPosition);
             });
-
-        //catch
+        
+        //攻撃切り替え
         this.UpdateAsObservable()
-            .Subscribe(isCatch =>
+            .Select(flag => _playerInput.IsAttack())
+            .Subscribe(flag =>
             {
-                _playerCatcher.OnActiveCatchableArea(_playerInput.IsCatch());
+                playerAttacker.OnActiveAttackCollider(flag);
             });
     }
     

@@ -8,8 +8,6 @@ public interface IPlayerInput
 
     Vector3 LookDirection();
 
-    bool IsShot();
-
-    bool IsCatch();
+    bool IsAttack();
 }
 
