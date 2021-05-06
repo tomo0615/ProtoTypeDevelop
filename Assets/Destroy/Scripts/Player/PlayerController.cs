@@ -4,7 +4,7 @@ using UniRx.Triggers;
 using UnityEngine;
 using Zenject;
 
-public class PlayerController : MonoBehaviour, IDamageable
+public class PlayerController : MonoBehaviour
 {
     #region インスタンス変数
     private IPlayerInput _playerInput;
@@ -65,10 +65,5 @@ public class PlayerController : MonoBehaviour, IDamageable
             {
                 playerAttacker.OnActiveAttackCollider(flag);
             });
-    }
-    
-    public void ApplyDamage()
-    {
-        Debug.Log("player:damage");
     }
 }

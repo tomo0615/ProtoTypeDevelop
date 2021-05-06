@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using UniRx;
+using UniRx.Triggers;
+using UnityEngine;
 
 public class PlayerAttacker : MonoBehaviour
 {
@@ -12,6 +14,14 @@ public class PlayerAttacker : MonoBehaviour
     private void Start()
     {
         _attackCollider.enabled = false;
+
+        this.OnCollisionEnterAsObservable()
+            .Select(collision =>collision.gameObject.GetComponent<IDamageable>())
+            .Where(collision=> collision != null)
+            .Subscribe(collision =>
+            {
+                collision.ApplyDamage(transform.forward);
+            });
     }
     
     public void OnActiveAttackCollider(bool isActive)

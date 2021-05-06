@@ -1,4 +1,6 @@
-﻿public interface IDamageable
+﻿using UnityEngine;
+
+public interface IDamageable
 {
-    void ApplyDamage();
+    void ApplyDamage(Vector3 impactDirection);
 }

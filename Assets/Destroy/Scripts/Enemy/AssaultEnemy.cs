@@ -1,4 +1,5 @@
-﻿using UniRx;
+﻿using DG.Tweening;
+using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 
@@ -25,18 +26,26 @@ public class AssaultEnemy : BaseEnemy
 
     private void Start()
     {
-        this.UpdateAsObservable()
-            .Select(playerPos=>ChasePointer.Instance.GetChasePoint())
-            .Subscribe(playerPos =>
-            {
-                _enemyMover.Move(playerPos, moveSpeed);
-            });
+        // this.UpdateAsObservable()
+        //     .Select(playerPos=>ChasePointer.Instance.GetChasePoint())
+        //     .Subscribe(playerPos =>
+        //     {
+        //         _enemyMover.Move(playerPos, moveSpeed);
+        //     });
 
         this.UpdateAsObservable()
             .Where(_ => isShotable)
             .Subscribe(_ =>
             {
                 _enemyShooter.Shooting();
+            });
+
+        this.OnCollisionEnterAsObservable()
+            .Select(collider=> collider.gameObject.tag)
+            .Where(collider=> collider == "Player")
+            .Subscribe(_ =>
+            {
+                transform.DOScale(new Vector3(1.0f, 0.1f, 1.0f), 0.10f);
             });
     }
 }

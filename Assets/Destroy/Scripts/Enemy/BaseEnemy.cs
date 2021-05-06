@@ -1,27 +1,20 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public abstract class BaseEnemy : MonoBehaviour, IDamageable
 {
     [SerializeField]
     protected int hitPoint = 7;
-    
-    private void OnTriggerEnter(Collider other)
+
+    [SerializeField]
+    protected Rigidbody _rigidbody;
+
+    public void ApplyDamage(Vector3 impactDirection)
     {
-        var damageable = other.GetComponent<IDamageable>();
-
-        damageable?.ApplyDamage();
-    }
-
-    public void ApplyDamage()
-    {
-        hitPoint--;
-
-        if (hitPoint > 0) return;
-        
-        //撃破時Effect
-        // GameEffectManager.Instance
-        //     .OnGenelateEffect(transform.position, EffectType.EF_Explosion_shape);
-
-        gameObject.SetActive(false);
+        _rigidbody.velocity = impactDirection * 50.0f;
+        //吹っ飛ばす挙動だけなのでコメントアウト中
+        // hitPoint--;
+        // if (hitPoint > 0) return;
+        // gameObject.SetActive(false);
     }
 }
